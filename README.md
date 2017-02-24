@@ -5,4 +5,4 @@ It is intended only to help you work on an AWESOME terminal, complete with colou
 Bottom line: 
 
 #DON'T PANIC 
-    - Douglas Adams
+- Douglas Adams
