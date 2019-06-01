@@ -1,50 +1,84 @@
 #!/bin/bash/
-#Git branch in prompt.
+
+clear
+
+################################################################################################################
+#Git branch in prompt and other bash goodies - see the section #MY OWN, there are two uncommented lines
 
 parse_git_branch() {
 
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+	local gitdir=$(git rev-parse --git-dir 2>/dev/null)
+
+	if [ $? -ne 0 ] || [ -z "$gitdir" ]; then
+		return
+	fi
+
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 
 }
 
-export PATH="/usr/local/mysql/bin:$PATH"
-export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+git_parse_remote() {
+# Still under construction
 
-# added by Anaconda2 2.5.0 installer
-# export PATH="/Users/adriaan/anaconda/bin:$PATH"
+    git remote 2> /dev/null 
 
-# needed to run HealthQ scripts and correctly parse data
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+}
 
-if [ $(which docker-machine) ]; then
-    eval "$(docker-machine env default)"
+# BASH PROMPT WITH USEFUL INFO ONLY
+RED="\[\033[0;31m\]"
+YELLOW="\[\033[0;33m\]"
+GREEN="\[\033[0;32m\]"
+WHITE="\[\033[00m\]"
+export PS1="$YELLOW@\u $WHITE\w/ $GREEN\$(parse_git_branch) $WHITE\n$ "
+export PS2="\$ "
+
+# BASH CODE COMPLETION
+# NOTE: not sure if this works...
+
+if type brew 2&>/dev/null; then
+  for completion_file in $(brew --prefix)/etc/bash_completion.d/*; do
+    source "$completion_file"
+  done
 fi
+################################################################################################################
 
-#just for testing
+# Other useful shortcuts for Bash
 alias ll='ls -lahG'
-alias profServer="kernprof -l src/test/scripts/start_server.py"
-alias REM="rm -rfv"
-alias Activate="DIR=$`pwd -P`; while [ ! -d "venv" ]; do cd ..; done; source ./venv/bin/activate; echo $DIR; cd $DIR; which python"
-alias Run="./run.py"
-alias Runp="./runp.py"
-alias AllBranches="git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done"
 alias Restart=". ~/.bash_profile"
+alias t1="tree -L 1"
 alias t2="tree -L 2"
 alias t3="tree -L 3"
-alias vis="echo #!/bin/bash\n >> $1; vim $1"
-alias retry=". ~/retry.sh"
-if [ $1 = "dev" ]; then
-    alias setup="virtualenv venv && . venv/bin/activate && pip install -r dev_requirements.txt"
-else
-    alias setup="virtualenv venv && . venv/bin/activate && pip install -r requirements.txt"
-fi
 
-#alias release="virtualenv venv && . venv/bin/activate && pip install --upgrade git+ssh://git@bitbucket.org/HealthQ/$1.git@$2"
-clear
-#alias release="echo --upgrade git+ssh://git@bitbucket.org/HealthQ/$1.git@$2"
+# Git specific aliases - use with care
+alias gs="git status"
+alias ga="git add"
+alias gcm="git commit -m"
+alias gp="git push"
+alias gl="git log"
+alias gpr="CURRENT_BRANCH=$`git rev-parse --abbrev-ref HEAD`; git push --set-upstream $1 $CURRENT_BRANCH"
+alias ggg="ga . && gcm"
 
-# Setting PATH for Python 2.7
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH
+
+# Shortcuts to manage this file quickly
+alias cb="cat ~/.bash_profile"
+alias vb="vim ~/.bash_profile"
+alias rb=". ~/.bash_profile"
+
+
+alias bfg="java -jar bfg.jar"
+alias vimrc="vim ~/.vimrc"
+
+
+# Directory quickaccess shortcuts
+alias laravel-tutorial="cd ~/PHP/tutorialpoint/–-prefer-dist/"
+alias sites="cd ~/PHP/Sites"
+
+
+# Path exports
+export PATH="$HOME/.composer/vendor/bin:$PATH"
+export PATH="~/Homestead:$PATH"
+
+function homestead() {
+    ( cd ~/Homestead && vagrant $* )
+}
+
