@@ -3,8 +3,8 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
-SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = skeleton
+SPHINXBUILD   = python3 -msphinx
+SPHINXPROJ    = developerskatelescopeorg
 SOURCEDIR     = src
 BUILDDIR      = build
 

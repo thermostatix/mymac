@@ -37,7 +37,6 @@ def setup(app):
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
-    'sphinx.ext.doctst',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',

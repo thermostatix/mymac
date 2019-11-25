@@ -1,28 +1,19 @@
 [[source]]
-url = "https://nexus.engageska-portugal.pt/repository/pypi-proxy/simple"
+url = "https://pypi.org/simple"
 verify_ssl = true
-name = "nexus-proxy"
-
-[[source]]
-url = "https://nexus.engageska-portugal.pt/repository/pypi/simple"
-verify_ssl = true
-name = "nexus-hosted"
+name = "pypi"
 
 [packages]
-docutils = "*"
-MarkupSafe = "*"
-Pygments = "*"
-pylint = "*"
-pylint-junit = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-pylint = "*"
-pytest-json-report = "*"
-python-dotenv = ">=0.5.1"
-Sphinx = "*"
-sphinx_rtd_theme = "*"
-sphinx-autobuild = "*"
-sphinxcontrib-websupport = "*"
+docutils = ">=0.14"
+imagesize = ">=0.7.1"
+sphinx-autobuild = ">=0.7.1"
+sphinxcontrib-websupport = ">=1.0.1"
+"Jinja2" = ">=2.9.6"
+MarkupSafe = ">=1.0"
+Pygments = ">=2.2.0"
+Sphinx = ">=1.6.3"
+sphinx_rtd_theme = ">=0.2.4"
+doc8 = "*"
 
 [dev-packages]
 
